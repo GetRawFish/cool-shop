@@ -1,0 +1,35 @@
+.header
+    position: fixed
+    left: 0
+    top: 0
+    right: -301px
+    height: 100px
+    background-image: linear-gradient(-45deg, $darkPink, $mint, $darkPink)
+    display: flex
+    align-items: center
+    justify-content: space-between
+    &__details-name, &__details-img
+        height: 30px
+        width: 250px
+        background-color: $white
+        border-radius: 15px
+        margin: .4rem 1rem .4rem 4rem
+    &__details-price, &__details-add
+        height: 30px
+        width: 125px
+        border-radius: 15px
+        margin: .4rem 0
+    &__details-price
+        background-color: $white
+    &__details-add
+        background-color: $darkPink
+        
+
+.basket
+    width: 300px
+    min-height: 300px
+    height: 100vh
+    background-color: $mint
+    position: absolute
+    top: 100px
+    right: 0

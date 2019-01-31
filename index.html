@@ -21,19 +21,40 @@
 		<div class="container">
             <div class="header">
                 <div class="header__details">
-                    <input type="text" class="header__details-name" placeholder="nombre">
-                    <input type="text" class="header__details-price" placeholder="precio">
-                    <input type="text" class="header__details-img"  placeholder="imagen (palabra clave)">
-                    <input type="text" class="header__details-add" value="añadir">
+                    <div class="header__details-left-column">
+                        <input type="text" class="header__details-name" placeholder="nombre">
+                        <input type="text" class="header__details-price" placeholder="precio">
+                    </div>
+                    <div class="header__detail-right-column">
+                        <input type="text" class="header__details-img"  placeholder="imagen (palabra clave)">
+                        <input type="text" class="header__details-add" value="añadir">
+                    </div>
                 </div>
                 <div class="open-basket">
                     <button class="open-basket__open">abrir cesta de compra</button>
                 </div>
                 <nav class="basket">
+                    <h2 class="basket__title">Productos añadidos</h2>
                     <ul>
-
+                        <li class="basket__product">Patata<span class="basket__product-proce">0,0 €</span></li>
+                        <li class="basket__producto">Tomate<span class="basket__product-proce">0,0 €</span></li>
                     </ul>
+                    <h3 class="basket__total">Total<span class="basket__total-price">0,0 €</span></h3>
                 </nav>
+            </div>
+            <div class="listed-products">
+                <div class="listed-products__sum">
+                    <img src="https://images.unsplash.com/photo-1507732052797-d22258ac2f96?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="listed-products__img">
+                    <h1 class="listed-products__name">Patata</h1>
+                    <div class="listed-products__info">
+                        <button class="listed-products__add">+</button>
+                        <p class="listed-products__price">0,0 €</p>
+                    </div>
+                </div>
+            </div>
+            <div class="page">
+                <div class="page__back"></div>
+                <div class="page__forward"></div>
             </div>
         </div>
 	</body>	
