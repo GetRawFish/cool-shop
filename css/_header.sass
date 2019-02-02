@@ -1,38 +1,89 @@
 .header
     position: fixed
-    left: 0
     top: 0
-    right: 0px
+    left: 0
+    right: 0
     height: 100px
-    background-image: linear-gradient(-45deg, $darkPink, $mint, $darkPink)
+    background-image: linear-gradient(-45deg, $gold, $butter, $gold)
     display: flex
-    align-items: center
     justify-content: space-between
-    &__details-name, &__details-img
-        height: 30px
-        width: 250px
+    align-items: center
+    box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, .25)
+    z-index: 5
+    @media all and(max-width: $md)
+        height: 200px
+    &__data
+        width: calc(400px + 1.5rem)
+        margin-left: 5rem
+        display: flex
+        flex-direction: column
+        @media all and(max-width: $md)
+            margin-left: 1.5rem
+    &__data-above, &__data-below
+        display: flex
+        justify-content: space-between
+        @media all and(max-width: $md)
+            flex-direction: column
+    &__data-above
+        margin-bottom: .75rem
+    &__data-name, &__data-img, &__data-price
         background-color: $white
         border-radius: 15px
-        margin: .4rem 1rem .4rem 4rem
-    &__details-price, &__details-add
-        height: 30px
-        width: 125px
+        padding: 0 .75rem
+        font-weight: 700
+        &::placeholder
+            color: $ocra
+            font-weight: 300
+        &:hover
+            background-color: $butter
+            box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, .25)
+        &:focus
+            box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, .25)
+    &__data-price
+        width: calc(100px - 1.5rem)
+        @media all and(max-width: $md)
+            width: calc(150px - 1.5rem)
+            margin-top: .75rem
+    &__data-add
+        background-color: $blue-green
         border-radius: 15px
-        margin: .4rem 0
-    &__details-price
-        background-color: $white
-    &__details-add
-        background-color: $darkPink
+        width: 100px
+        font-weight: 700
+        color: $white
+        font-size: 1.5rem
+        &:hover
+            background-color: $gold
+            box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, .25)
+        &:active
+            background-color: $dark-butter
+            color: $blue-green
+        @media all and(max-width: $md)
+            width: 150px
+            margin-top: .75rem
+    &__data-name, &__data-img
+        height: 30px
+        width: calc(300px - 1.5rem)
+        margin-right: 1rem
+        @media all and(max-width: $md)
+            width: calc(150px - 1.5rem)
+    &__data-add, &__data-price
+        height: 30px
+    &__basket-button
+        height: 72px
+        width: 72px
+        margin-right: 5rem
+        color: $blue-green
+        font-size: 4rem
+        @media all and(max-width: $md)
+            margin-right: 1.5rem
+    &__basket-fish
+        &:hover
+            color: $gold
+        &:active
+            color: $dark-butter
+        @media all and(max-width: $md)
+            margin-right: 1.5rem
+
         
 
-.basket
-    width: 300px
-    min-height: 300px
-    height: 100vh
-    background-color: $mint
-    position: absolute
-    top: 100px
-    right: -301px
-    transition: all 1s ease-in-out
-.show
-    right: 0
+

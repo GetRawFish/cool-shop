@@ -3,10 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
         <title>Cool Shop</title>
-
-        <!-- no olvidar buscar la img -->
-        <link rel="icon" type="image/png" href="favicon.png">
-        
+        <link rel="icon" type="image/png" href="img/favicon.png">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<meta name="author" content="Valentina Rubane">
 		<meta name="keywords" content="tienda, objetos bonitos">
@@ -19,95 +16,35 @@
         
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-            // JS to open "basket"
-                // Varibles
-                let openBasket = document.querySelector('#openBasket');
-                let basketOpend = document.querySelector('#basketOpend');
-                // Function
-                function open() {
-                    basketOpend.classList.add('show');
-                }
-                function close() {
-                    basketOpend.classList.remove('show');
-                }
-                // Events
-                openBasket.addEventListener('click', open);
-                basketOpend.addEventListener('click', close);
-
-            // JS to create "listed products"
-                // Varibles
-                let productName = document.querySelector('#productName');
-                let productPrice = document.querySelector('#productPrice');
-                let productImg = document.querySelector('#productImg');
-                let addProduct = document.querySelector('#addProduct');
-                let listing = document.querySelector('#listing');
-                let API_ROOT = 'https://api.unsplash.com/search/photos?client_id=65801dae0a039e72bfeb52090b5ff0fe8aea437f1ab540da69daefd665ed294f&page=1&query=';
-                let productArray = [];
-                // Functions
-                function searchImg() {
-                    axios.get(`${API_ROOT}${productImg.value}`)
-                        .then(function (response) {
-                            productImg.value = '';
-                            createImgUrlArray.push(response.data.results[0].urls.small);
-                            listProducts();
-                        })
-                        .catch(function (error) {
-                            // handle error
-                            console.log(error);
-                        })
-                        .then(function () {
-                            // always executed
-                        });
-                }
-                function list(listingResult) {
-                    listing.textContent = '';
-                    let id = 0;
-                    
-                }
-
-
+            
             });
         </script>
 	</head>	
 	<body>
-		<div class="container">
-            <div class="header">
-                <div class="header__details">
-                    <div class="header__details-left-column">
-                        <input type="text" class="header__details-name" id="productName" placeholder="nombre">
-                        <input type="text" class="header__details-price" id="productPrice" placeholder="precio">
-                    </div>
-                    <div class="header__detail-right-column">
-                        <input type="text" class="header__details-img" id="productImg"  placeholder="imagen (palabra clave)">
-                        <input type="text" class="header__details-add" id="addProduct" value="añadir">
-                    </div>
+		<header class="header">
+            <div class="header__data">
+                <div class="header__data-above">
+                    <input type="text" class="header__data-name" placeholder="nombre">
+                    <input type="text" class="header__data-price" placeholder="precio">
                 </div>
-                <div class="open-basket">
-                    <button class="open-basket__open" id="openBasket">abrir cesta de compra</button>
-                </div>
-                <div id="basketOpend" class="basket">
-                    <h2 class="basket__title">Productos añadidos</h2>
-                    <ul>
-                        <li class="basket__product">Patata<span class="basket__product-proce">0,0 €</span></li>
-                        <li class="basket__producto">Tomate<span class="basket__product-proce">0,0 €</span></li>
-                    </ul>
-                    <h3 class="basket__total">Total<span class="basket__total-price">0,0 €</span></h3>
+                <div class="header__data-below">
+                    <input type="text" class="header__data-img" placeholder="imagen">
+                    <input type="button" class="header__data-add" value="+">
                 </div>
             </div>
-            <div class="listed-products" id="listing">
-                <div class="listed-products__sum">
-                    <img src="https://images.unsplash.com/photo-1507732052797-d22258ac2f96?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80" alt="" class="listed-products__img">
-                    <h1 class="listed-products__name">Patata</h1>
-                    <div class="listed-products__info">
-                        <button class="listed-products__add">+</button>
-                        <p class="listed-products__price">0,0 €</p>
-                    </div>
-                </div>
+            <div class="header__basket">
+                <button class="header__basket-button"><i class="icon-fish header__basket-fish"></i></button>
             </div>
-            <div class="page">
-                <div class="page__back"></div>
-                <div class="page__forward"></div>
-            </div>
+        </header>
+        <div class="basket">
+            <h2 class="basket__title">productos añadidos</h2>
+            <ul>
+                <li class="basket__products">lubina fresca ... <span class="basket__products-price">10,95 €</span></li>
+            </ul>
+            <h3 class="basket__total">total ... 10,95 €</h3>
+        </div>
+        <div class="container">
+
         </div>
 	</body>	
 </html>
