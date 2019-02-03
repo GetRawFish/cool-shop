@@ -13,10 +13,105 @@
         <meta property="og:image" content="img/miniatura.png">
         
         <link rel="stylesheet" type="text/css" href="css/main.css">
-        
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
-            
+                // JS to open - close basket
+
+                // Variables
+                let openBasket = document.querySelector('#openBasket');
+                let closeBasket = document.querySelector('#closeBasket');
+                let basketOpened = document.querySelector('#basketOpened')
+
+                //Function
+                function open() {
+                    openBasket.style.display = 'none';
+                    closeBasket.style.display = 'block'
+                    basketOpened.classList.add('open');
+                }
+                function close() {
+                    openBasket.style.display = 'block';
+                    closeBasket.style.display = 'none'
+                    basketOpened.classList.remove('open');
+                }
+
+                // Event
+                openBasket.addEventListener('click', open);
+                closeBasket.addEventListener('click', close)
+
+                // JS add productos to the list
+                // Variables
+                let API_ROOT = 'https://api.unsplash.com/search/photos?client_id=65801dae0a039e72bfeb52090b5ff0fe8aea437f1ab540da69daefd665ed294f&page=1&query=';
+                let name = document.querySelector('#name');
+                let price = document.querySelector('#price');
+                let img = document.querySelector('#img');
+                let add = document.querySelector('#add');
+                let list = document.querySelector('#list');
+                let imgUrlArray = [];
+                let nameArray = [];
+
+                // Functions
+
+                // Catch img
+                function searchImg() {
+                    axios.get(`${API_ROOT}${img.value}`)
+                        .then(function (response) {
+                            // Clean inputs
+                            img.value = '';
+                            // Add value to img array
+                            imgUrlArray.push(response.data.results[0].urls.small);
+                            createImg();
+                        })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error);
+                        })
+                        .then(function () {
+                            // always executed
+                        });
+                }
+
+                // Create new product
+                function createImg(resultImg) {
+                    list.textContent = '';
+                    let counter = 0;
+                    for(let resultImg of imgUrlArray) {
+                        counter += 1;
+                        let productId = `product${counter}`;
+                        let listedProduct = document.createElement('div');
+                        listedProduct.classList.add('listing__product');
+                        listedProduct.setAttribute('id', productId);
+                        list.appendChild(listedProduct);
+                        let listedProductImg = document.createElement('div');
+                        listedProductImg.classList.add('listing__product-img');
+                        listedProductImg.style.backgroundImage = `url(${resultImg})`;
+                        listedProduct.appendChild(listedProductImg);
+                        list.appendChild(listedProduct);
+                        let listedProductName = document.createElement('h1');
+                        listedProductName.classList.add('listing__product-title');
+                        listedProductName.textContent = nameArray;
+                        listedProduct.appendChild(listedProductName);
+                        list.appendChild(listedProduct);
+                        let listedProductData = document.createElement('div');
+                        listedProductData.classList.add('listing__product-data');
+                        listedProduct.appendChild(listedProductData);
+                        list.appendChild(listedProduct);
+                        let listedProductButton = document.createElement('button');
+                        listedProductButton.classList.add('listing__product-add');
+                        listedProductButton.textContent = '+';
+                        listedProductData.appendChild(listedProductButton);
+                        list.appendChild(listedProduct);
+                        let listedProductPrice = document.createElement('p');
+                        listedProductPrice.classList.add('listing__product-price');
+                        listedProductPrice.textContent = `${price.value} €`;
+                        listedProductData.appendChild(listedProductPrice);
+                        list.appendChild(listedProduct);
+                    }
+                    
+                }
+
+                // Event
+                add.addEventListener('click', searchImg);
             });
         </script>
 	</head>	
@@ -24,19 +119,24 @@
 		<header class="header">
             <div class="header__data">
                 <div class="header__data-above">
-                    <input type="text" class="header__data-name" placeholder="nombre">
-                    <input type="text" class="header__data-price" placeholder="precio">
+                    <input type="text" class="header__data-name" placeholder="nombre" id="name">
+                    <input type="text" class="header__data-price" placeholder="precio" id="price">
                 </div>
                 <div class="header__data-below">
-                    <input type="text" class="header__data-img" placeholder="imagen">
-                    <input type="button" class="header__data-add" value="+">
+                    <input type="text" class="header__data-img" placeholder="imagen" id="img">
+                    <input type="button" class="header__data-add" value="+" id="add">
                 </div>
             </div>
             <div class="header__basket">
-                <button class="header__basket-button"><i class="icon-fish header__basket-fish"></i></button>
+                <button class="header__basket-button" id="openBasket"><i class="icon-fish header__basket-fish"></i>
+                <i class="icon-fish header__basket-fish"></i>
+                </button>
+                <button class="header__basket-button-close" id="closeBasket"><i class="icon-fish header__basket-fish"></i>
+                <i class="icon-fish header__basket-fish"></i>
+                </button>
             </div>
         </header>
-        <div class="basket">
+        <div class="basket" id="basketOpened">
             <h2 class="basket__title">productos añadidos</h2>
             <ul>
                 <li class="basket__products">lubina fresca ... <span class="basket__products-price">10,95 €</span></li>
@@ -44,7 +144,21 @@
             <h3 class="basket__total">total ... 10,95 €</h3>
         </div>
         <div class="container">
-
+            <div class="listing" id="list">
+                <div class="listing__product">
+                    <div class="listing__product-img"></div>
+                    <h1 class="listing__product-title">lubina fresca</h1>
+                    <div class="listing__product-data">
+                        <button class="listing__product-add">+</button>
+                        <p class="listing__product-price">10,95 €</p>
+                    </div>
+                </div>
+            </div>
+            <div class="pages">
+                <button class="pages__left"><i class="icon-fish pages__left-fish"></i></button>
+                <p class="pages__pages">página 1 <span class="pages__pages-thin">(de 1)</span></p>
+                <button class="pages__right"><i class="icon-fish right-fish"></i></button>
+            </div>
         </div>
 	</body>	
 </html>

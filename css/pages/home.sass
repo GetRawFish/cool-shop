@@ -2,7 +2,7 @@
     height: 100vh
     width: 350px
     position: fixed
-    right: 0
+    right: -415px
     top: 100px
     background-color: $gold
     box-shadow: -3px 0px 5px 0px rgba(0, 0, 0, .25)
@@ -10,6 +10,7 @@
     text-align: center
     text-transform: uppercase
     z-index: 1
+    transition: all 1s cubic-bezier(0.46, 0.03, 0.52, 0.96)
     @media all and(max-width: $md)
         width: 200px
         top: 200px
@@ -36,3 +37,78 @@
             font-size: 1rem
             margin-top: 1.5rem
             padding-top: .75rem
+
+.listing
+    margin-top: calc(100px + 3rem)
+    display: flex
+    justify-content: center
+    flex-wrap: wrap
+    @media all and(max-width: $md)
+        margin-top: calc(200px + 3rem)
+    &__product
+        height: 250px
+        width: 250px
+        background-color: $dark-butter
+        border-radius: 20px
+        margin: 1rem
+    &__product-img
+        height: 125px
+        width: 250px
+        border-radius: 20px 20px 0 0 
+        background-image: url(../img/lubina-fresca.jpg)
+        background-size: cover
+        background-position: center
+    &__product-title
+        text-align: center
+        margin: .75rem .5rem
+        text-transform: uppercase
+        font-size: 1.5rem
+    &__product-data
+        display: flex
+        justify-content: space-between 
+        margin: 1.5rem
+    &__product-price
+        font-size: 1.5rem
+        font-weight: 700
+    &__product-add
+        background-color: $blue-green
+        height: 30px
+        width: 50px
+        border-radius: 15px
+        color: $white
+        font-weight: 700
+        font-size: 1.25rem
+        &:hover
+            background-color: $gold
+            box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, .25)
+        &:active
+            background-color: $butter
+            color: $blue-green
+.pages
+    display: flex
+    justify-content: center
+    align-items: center
+    margin-top: 3rem
+    &__left, &__right
+        color: $dark-butter
+        font-size: 2rem
+        &:hover
+            color: $blue-green
+        &:active
+            color: $gold
+    &__left
+        margin-right: 2rem
+        transform: scaleX(-1)
+    &__right
+        margin-left: 2rem
+    &__pages
+        color: $blue-green
+        font-weight: 700
+    &__pages-thin
+        font-weight: 400
+
+// JS
+.open
+    right: 0
+
+
