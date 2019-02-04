@@ -13,6 +13,7 @@
         <meta property="og:image" content="img/miniatura.png">
         
         <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
@@ -20,24 +21,21 @@
 
                 // Variables
                 let openBasket = document.querySelector('#openBasket');
-                let closeBasket = document.querySelector('#closeBasket');
-                let basketOpened = document.querySelector('#basketOpened')
+                let basketOpened = document.querySelector('#basketOpened');
 
                 //Function
-                function open() {
-                    openBasket.style.display = 'none';
-                    closeBasket.style.display = 'block'
-                    basketOpened.classList.add('open');
-                }
-                function close() {
-                    openBasket.style.display = 'block';
-                    closeBasket.style.display = 'none'
-                    basketOpened.classList.remove('open');
-                }
+                function showBasket() {
+                    if (!basketOpened.classList.contains('open')) {
+                        openBasket.style.transform = 'scaleX(1)';
+                        basketOpened.classList.add('open');
+                    } else {
+                        openBasket.style.transform = 'scaleX(-1)';
+                        basketOpened.classList.remove('open');
+                    }
+                }    
 
                 // Event
-                openBasket.addEventListener('click', open);
-                closeBasket.addEventListener('click', close)
+                openBasket.addEventListener('click', showBasket);
 
                 // JS add productos to the list
                 // Variables
@@ -47,49 +45,52 @@
                 let img = document.querySelector('#img');
                 let add = document.querySelector('#add');
                 let list = document.querySelector('#list');
-                let imgUrlArray = [];
-                let nameArray = [];
+                let productArray = [];
+                let basketArray = [];
 
                 // Functions
 
                 // Catch img
-                function searchImg() {
+                function searchProduct() {
+                    list.textContent= '';
                     axios.get(`${API_ROOT}${img.value}`)
-                        .then(function (response) {
-                            // Clean inputs
-                            img.value = '';
-                            // Add value to img array
-                            imgUrlArray.push(response.data.results[0].urls.small);
-                            createImg();
+                    .then(function (response) {
+                        // handle success
+                        productArray.unshift({
+                            id: _.uniqueId(),
+                            name: name.value,
+                            price: parseFloat(price.value),
+                            img: response.data.results[0].urls.small,
                         })
-                        .catch(function (error) {
-                            // handle error
-                            console.log(error);
-                        })
-                        .then(function () {
-                            // always executed
-                        });
+                        name.value = '';
+                        img.value = '';
+                        price.value = '';
+                        createProduct();
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+                    .then(function () {
+                        // always executed
+                    }); 
                 }
 
                 // Create new product
-                function createImg(resultImg) {
+                function createProduct(resultProduct) {
                     list.textContent = '';
-                    let counter = 0;
-                    for(let resultImg of imgUrlArray) {
-                        counter += 1;
-                        let productId = `product${counter}`;
+                    for(let product of productArray) {
                         let listedProduct = document.createElement('div');
                         listedProduct.classList.add('listing__product');
-                        listedProduct.setAttribute('id', productId);
                         list.appendChild(listedProduct);
                         let listedProductImg = document.createElement('div');
                         listedProductImg.classList.add('listing__product-img');
-                        listedProductImg.style.backgroundImage = `url(${resultImg})`;
+                        listedProductImg.style.backgroundImage = `url(${product.image})`;
                         listedProduct.appendChild(listedProductImg);
                         list.appendChild(listedProduct);
                         let listedProductName = document.createElement('h1');
                         listedProductName.classList.add('listing__product-title');
-                        listedProductName.textContent = nameArray;
+                        listedProductName.textContent = name.value;
                         listedProduct.appendChild(listedProductName);
                         list.appendChild(listedProduct);
                         let listedProductData = document.createElement('div');
@@ -111,7 +112,7 @@
                 }
 
                 // Event
-                add.addEventListener('click', searchImg);
+                add.addEventListener('click', searchProduct);
             });
         </script>
 	</head>	
@@ -129,9 +130,6 @@
             </div>
             <div class="header__basket">
                 <button class="header__basket-button" id="openBasket"><i class="icon-fish header__basket-fish"></i>
-                <i class="icon-fish header__basket-fish"></i>
-                </button>
-                <button class="header__basket-button-close" id="closeBasket"><i class="icon-fish header__basket-fish"></i>
                 <i class="icon-fish header__basket-fish"></i>
                 </button>
             </div>
