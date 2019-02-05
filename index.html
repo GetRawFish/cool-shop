@@ -13,8 +13,8 @@
         <meta property="og:image" content="img/miniatura.png">
         
         <link rel="stylesheet" type="text/css" href="css/main.css">
-        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 // JS to open - close basket
@@ -32,7 +32,7 @@
                         openBasket.style.transform = 'scaleX(-1)';
                         basketOpened.classList.remove('open');
                     }
-                }    
+                };    
 
                 // Event
                 openBasket.addEventListener('click', showBasket);
@@ -45,6 +45,9 @@
                 let img = document.querySelector('#img');
                 let add = document.querySelector('#add');
                 let list = document.querySelector('#list');
+                let basketListing = document.querySelector('#basketListing');
+                let basketTotal = document.querySelector('#basketTotal');
+                
                 let productArray = [];
                 let basketArray = [];
 
@@ -60,7 +63,7 @@
                             id: _.uniqueId(),
                             name: name.value,
                             price: parseFloat(price.value),
-                            img: response.data.results[0].urls.small,
+                            img: response.data.results[_.random(0, 5)].urls.small,
                         })
                         name.value = '';
                         img.value = '';
@@ -74,7 +77,7 @@
                     .then(function () {
                         // always executed
                     }); 
-                }
+                };
 
                 // Create new product
                 function createProduct(resultProduct) {
@@ -85,12 +88,12 @@
                         list.appendChild(listedProduct);
                         let listedProductImg = document.createElement('div');
                         listedProductImg.classList.add('listing__product-img');
-                        listedProductImg.style.backgroundImage = `url(${product.image})`;
+                        listedProductImg.style.backgroundImage = `url(${product.img})`;
                         listedProduct.appendChild(listedProductImg);
                         list.appendChild(listedProduct);
                         let listedProductName = document.createElement('h1');
                         listedProductName.classList.add('listing__product-title');
-                        listedProductName.textContent = name.value;
+                        listedProductName.textContent = product.name;
                         listedProduct.appendChild(listedProductName);
                         list.appendChild(listedProduct);
                         let listedProductData = document.createElement('div');
@@ -100,19 +103,56 @@
                         let listedProductButton = document.createElement('button');
                         listedProductButton.classList.add('listing__product-add');
                         listedProductButton.textContent = '+';
+
+                        // add ID to the button
+                        listedProductButton.dataset.ref = product.id;
+                        
                         listedProductData.appendChild(listedProductButton);
                         list.appendChild(listedProduct);
+
+                        // Event
+                        listedProductButton.addEventListener('click', createBasketListing);
+
                         let listedProductPrice = document.createElement('p');
                         listedProductPrice.classList.add('listing__product-price');
-                        listedProductPrice.textContent = `${price.value} €`;
+                        listedProductPrice.textContent = `${product.price} €`;
                         listedProductData.appendChild(listedProductPrice);
                         list.appendChild(listedProduct);
                     }
                     
-                }
+                };
+
+                // Create basket listing
+                function createBasketListing() {
+                    let ref = this.dataset.ref;
+                    let myProduct = productArray.filter((product) => {
+                        return product.id == ref;
+                    })[0];
+                    basketListing.textContent = '';
+                    basketArray.push(myProduct);
+                    for(let product of basketArray) {
+                        let basketProduct = document.createElement('li');
+                        basketProduct.textContent = `${product.name} ... `;
+                        basketProduct.classList.add('basket__products');
+                        basketListing.appendChild(basketProduct);
+                        let basketProductSpan = document.createElement('span');
+                        basketProductSpan.textContent = `${product.price} €`;
+                        basketProductSpan.classList.add('basket__products-price');
+                        basketProduct.appendChild(basketProductSpan);
+                    }
+                    basketTotal.textContent = '';
+                    let total = 0;
+                    for(let product of basketArray) {
+                        total += product.price;
+                        basketTotal.textContent = `Total ... ${total.toFixed(2)} €`;
+                        basketTotal.classList.add('basket__total');
+                    }
+                };
 
                 // Event
                 add.addEventListener('click', searchProduct);
+                
+
             });
         </script>
 	</head>	
@@ -136,21 +176,12 @@
         </header>
         <div class="basket" id="basketOpened">
             <h2 class="basket__title">productos añadidos</h2>
-            <ul>
-                <li class="basket__products">lubina fresca ... <span class="basket__products-price">10,95 €</span></li>
+            <ul id="basketListing">
             </ul>
-            <h3 class="basket__total">total ... 10,95 €</h3>
+                <h3 class="basket__total" id="basketTotal"></h3>
         </div>
         <div class="container">
             <div class="listing" id="list">
-                <div class="listing__product">
-                    <div class="listing__product-img"></div>
-                    <h1 class="listing__product-title">lubina fresca</h1>
-                    <div class="listing__product-data">
-                        <button class="listing__product-add">+</button>
-                        <p class="listing__product-price">10,95 €</p>
-                    </div>
-                </div>
             </div>
             <div class="pages">
                 <button class="pages__left"><i class="icon-fish pages__left-fish"></i></button>
